@@ -124,5 +124,15 @@ def get_user_info(access_token: str) -> dict:
     response = requests.get(url='https://api.spotify.com/v1/me', headers=header)
     return response
 
-def refresh_token(refresh_token: str) -> dict:
-    pass
+def refresh_access_token(refresh_token: str, auth_token: str) -> dict:
+    refresh_token_endpoint = 'https://accounts.spotify.com/api/token'
+    body = {
+        'grant_type': 'refresh_token',
+        'refresh_token': refresh_token
+    }
+    header = {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization': f"Basic {auth_token}"
+    }
+    response = requests.post(url=refresh_token_endpoint, params=body, headers=header)
+    return response
